@@ -21,11 +21,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    scribbleNotifier.setColor(Colors.black);
+    // scribbleNotifier.setColor(Colors.black);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Scribble Riverpod"),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.save),
+          tooltip: "Save to Image",
+          onPressed: () => _saveImage(context),
+        ),
       ),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -51,6 +56,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> _saveImage(BuildContext context) async {
+    final image = await scribbleNotifier.renderImage();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Center(child: Text("Your Image")),
+        content: Image.memory(image.buffer.asUint8List()),
       ),
     );
   }

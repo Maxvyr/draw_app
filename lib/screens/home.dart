@@ -75,7 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         content: Column(
           children: [
             SizedBox(
-              height: 500.0,
+              height: 400.0,
               child: Image.file(file),
             ),
             ElevatedButton(

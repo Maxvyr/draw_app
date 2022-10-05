@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screibble_app/main.state.dart';
 import 'package:scribble/scribble.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -62,11 +66,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Future<void> _saveImage(BuildContext context) async {
     final image = await scribbleNotifier.renderImage();
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File("${dir.path}/img.png");
+    file.writeAsBytes(image.buffer.asUint8List());
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (ctx) => AlertDialog(
         title: const Center(child: Text("Your Image")),
-        content: Image.memory(image.buffer.asUint8List()),
+        content: Column(
+          children: [
+            SizedBox(
+              height: 500.0,
+              child: Image.file(file),
+            ),
+            ElevatedButton(
+              onPressed: () => Share.shareFiles([file.path]),
+              child: const Text("Share image"),
+            ),
+          ],
+        ),
       ),
     );
   }

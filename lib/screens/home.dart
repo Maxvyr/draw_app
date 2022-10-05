@@ -25,7 +25,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // scribbleNotifier.setColor(Colors.black);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Scribble Riverpod"),
@@ -51,7 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 right: 16,
                 child: Column(
                   children: [
-                    _buildColorToolbar(context),
+                    _buildToolbar(context),
                     const Divider(height: 32),
                     _buildStrokeToolbar(context),
                   ],
@@ -138,7 +137,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildColorToolbar(BuildContext context) {
+  Widget _buildToolbar(BuildContext context) {
     const div4 = Divider(
       height: 4,
     );
